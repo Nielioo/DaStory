@@ -2,6 +2,8 @@ import 'package:dastory/common/router/router.dart';
 import 'package:dastory/core/themes/themes.dart';
 import 'package:dastory/feature/auth/bloc/auth_bloc.dart';
 import 'package:dastory/feature/auth/data/datas.dart';
+import 'package:dastory/feature/home/bloc/stories_bloc.dart';
+import 'package:dastory/feature/home/data/datas.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +20,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => AuthBloc(AuthRemote()),
+        ),
+        BlocProvider(
+          create: (context) => StoriesBloc(StoriesRemote()),
         ),
       ],
       child: MaterialApp.router(
