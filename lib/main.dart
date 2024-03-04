@@ -25,8 +25,8 @@ class MyApp extends StatelessWidget {
         title: 'Stories App',
         theme: ThemeData(
           colorScheme: Theme.of(context).colorScheme.copyWith(
-                primary: amber500,
-                secondary: amber400,
+                primary: amber400,
+                secondary: amber500,
               ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
