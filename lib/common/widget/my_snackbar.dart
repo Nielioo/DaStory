@@ -12,7 +12,7 @@ class MySnackbar extends StatelessWidget {
     this.shape,
     this.behavior,
     this.action,
-    this.duration  = const Duration(seconds: 3),
+    this.duration = const Duration(seconds: 3),
     this.animation,
     this.onVisible,
   });

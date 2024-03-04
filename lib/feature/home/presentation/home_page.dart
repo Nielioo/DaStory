@@ -43,22 +43,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Story App',
-          style: Style.headline1,
-        ),
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await AuthLocal().removeAuthData();
-                // ignore: use_build_context_synchronously
-                context.goNamed('login');
-              },
-              icon: const Icon(Icons.logout)),
-        ],
-      ),
       body: widget.child,
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

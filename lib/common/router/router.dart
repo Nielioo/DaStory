@@ -10,9 +10,10 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: '/login',
+  initialLocation: '/stories',
   routes: [
     StatefulShellRoute.indexedStack(
+      parentNavigatorKey: _rootNavigatorKey,
       builder: (BuildContext context, GoRouterState state,
               StatefulNavigationShell navigationShell) =>
           HomePage(child: navigationShell),
@@ -22,19 +23,28 @@ final router = GoRouter(
           routes: [
             GoRoute(
               name: 'home',
-              path: '/home',
+              path: '/stories',
               builder: (context, state) => const StoriesPage(),
+              routes: [
+                GoRoute(
+                  path: ':userId',
+                  builder: (context, state) => StoryDetailPage(
+                      storyId: state.pathParameters['userId'] ?? ''),
+                ),
+              ],
             ),
           ],
         )
       ],
     ),
     GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
       name: 'login',
       path: '/login',
       builder: (context, state) => const LoginPage(),
     ),
     GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
       name: 'register',
       path: '/register',
       builder: (context, state) => const RegisterPage(),
@@ -42,8 +52,8 @@ final router = GoRouter(
   ],
   redirect: (context, state) async {
     final isLogin = await AuthLocal().isLogin();
-    if (isLogin) {
-      return '/home';
+    if (!isLogin) {
+      return '/';
     }
     return null;
   },

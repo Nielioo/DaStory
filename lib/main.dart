@@ -3,6 +3,7 @@ import 'package:dastory/core/themes/themes.dart';
 import 'package:dastory/feature/auth/bloc/auth_bloc.dart';
 import 'package:dastory/feature/auth/data/datas.dart';
 import 'package:dastory/feature/home/bloc/stories_bloc.dart';
+import 'package:dastory/feature/home/bloc/story_detail_bloc.dart';
 import 'package:dastory/feature/home/data/datas.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => StoriesBloc(StoriesRemote()),
+        ),
+        BlocProvider(
+          create: (context) => StoryDetailBloc(StoriesRemote()),
         ),
       ],
       child: MaterialApp.router(

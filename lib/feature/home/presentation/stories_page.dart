@@ -16,9 +16,24 @@ class _StoriesPageState extends State<StoriesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Size.p16),
-      child: BlocConsumer<StoriesBloc, StoriesState>(
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(
+          'Story App',
+          style: Style.headline1,
+        ),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await AuthLocal().removeAuthData();
+                // ignore: use_build_context_synchronously
+                context.goNamed('login');
+              },
+              icon: const Icon(Icons.logout)),
+        ],
+      ),
+      body: BlocConsumer<StoriesBloc, StoriesState>(
         listener: (context, state) {
           // TODO: implement listener
         },
