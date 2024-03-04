@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
               onPressed: () async {
                 await AuthLocal().removeAuthData();
+                // ignore: use_build_context_synchronously
                 context.goNamed('login');
               },
               icon: const Icon(Icons.logout)),
