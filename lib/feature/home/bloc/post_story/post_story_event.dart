@@ -15,9 +15,13 @@ class PickImageCameraGaleryEvent extends PostStoryEvent {}
 class DoPostStoryEvent extends PostStoryEvent {
   final XFile imageFile;
   final String description;
-  num? lat = 0;
-  num? lon = 0;
+  final num lat;
+  final num lon;
 
-  DoPostStoryEvent(
-      {required this.imageFile, required this.description, this.lat, this.lon});
+  const DoPostStoryEvent({
+    required this.imageFile,
+    required this.description,
+    required this.lat,
+    required this.lon,
+  });
 }

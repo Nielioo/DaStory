@@ -29,7 +29,7 @@ class _StoryDescriptionState extends State<StoryDescription> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                '${Random().nextInt(100)} reply • ${Random().nextInt(10000)} likes',
+                '${Random().nextInt(100)} ${AppLocalizations.of(context)!.replyText} • ${Random().nextInt(10000)} ${AppLocalizations.of(context)!.likeText}',
                 style: Style.text2
                     .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
               ),
@@ -58,13 +58,15 @@ class _StoryDescriptionState extends State<StoryDescription> {
                     )
                   ],
                 ),
-                maxLines: isReadMore ? 10 : 1,
+                maxLines: isReadMore ? null : 1,
               ),
               Container(
                 alignment: Alignment.bottomLeft,
                 child: InkWell(
                   child: Text(
-                    isReadMore ? "Read less" : "Read more",
+                    isReadMore
+                        ? AppLocalizations.of(context)!.readLessText
+                        : AppLocalizations.of(context)!.readMoreText,
                     style: Style.subText1.copyWith(color: Colors.black),
                   ),
                   onTap: () {

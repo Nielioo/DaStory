@@ -1,0 +1,16 @@
+{
+    "loginText": "Login",
+    "loginAltText": "Already have account? Login here",
+    "registerText": "Register",
+    "registerAltText": "New member? Register here",
+    "uploadText": "Upload",
+    "chooseImageText": "Click to choose image",
+    "cameraText": "Take a photo",
+    "galeryText": "Open Galery",
+    "inputDescriptionText": "Enter story description here",
+    "replyText": "replies",
+    "likeText": "likes",
+    "readMoreText": "Read more",
+    "readLessText": "Read less",
+    "languageText": "Language"
+}

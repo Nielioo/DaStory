@@ -11,8 +11,7 @@ class StoryDetailBloc extends Bloc<StoryDetailEvent, StoryDetailState> {
     on<GetDetailStoryEvent>(
       (event, emit) async {
         emit(StoryDetailLoading());
-        final response =
-            await _storiesRemote.getDetailStory(event.storyId);
+        final response = await _storiesRemote.getDetailStory(event.storyId);
         response.fold(
           (failed) => emit(StoryDetailFailed(message: failed)),
           (success) {

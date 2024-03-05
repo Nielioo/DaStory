@@ -37,8 +37,8 @@ class _HomePageState extends State<HomePage> {
             label: 'Upload',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: Icon(Icons.manage_accounts),
+            label: 'Profile',
           ),
         ],
       ),

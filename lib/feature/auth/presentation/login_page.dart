@@ -148,9 +148,9 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           onLogin();
                         },
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.loginText,
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),
@@ -159,9 +159,9 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           context.push('/register');
                         },
-                        child: const Text(
-                          'New member? Register here',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.registerAltText,
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),

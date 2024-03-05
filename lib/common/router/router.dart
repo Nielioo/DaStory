@@ -8,6 +8,8 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> _homeNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> _uploadNavigatorKey =
     GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> _settingNavigatorKey =
+    GlobalKey<NavigatorState>();
 
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
@@ -43,6 +45,16 @@ final router = GoRouter(
               name: 'upload',
               path: '/upload',
               builder: (context, state) => const PostStoryPage(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: _settingNavigatorKey,
+          routes: [
+            GoRoute(
+              name: 'profile',
+              path: '/profile',
+              builder: (context, state) => const ProfilePage(),
             ),
           ],
         ),

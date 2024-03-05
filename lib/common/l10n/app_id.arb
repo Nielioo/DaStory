@@ -1,0 +1,16 @@
+{
+    "loginText": "Masuk",
+    "loginAltText": "Sudah punya akun? Masuk disini",
+    "registerText": "Daftar",
+    "registerAltText": "Anggota baru? Daftar disini",
+    "uploadText": "Unggah",
+    "chooseImageText": "Klik untuk pilih gambar",
+    "cameraText": "Ambil foto dari kamera",
+    "galeryText": "Buka Galeri",
+    "inputDescriptionText": "Masukan deskripsi cerita disini",
+    "replyText": "balasan",
+    "likeText": "disukai",
+    "readMoreText": "Baca selengkapnya",
+    "readLessText": "Membaca lebih sedikit",
+    "languageText": "Bahasa"
+}

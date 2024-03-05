@@ -168,18 +168,18 @@ class _RegisterPageState extends State<RegisterPage> {
                             onRegister();
                           }
                         },
-                        child: const Text(
-                          'Register',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.registerText,
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),
                       ),
                       TextButton(
                         onPressed: () => context.pop(),
-                        child: const Text(
-                          'Already have account? Login here',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.loginAltText,
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),

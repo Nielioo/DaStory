@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dastory/common/l10n/localization.dart';
 import 'package:dastory/core/themes/themes.dart';
 import 'package:dastory/feature/home/data/datas.dart';
 import 'package:flutter/material.dart';

@@ -23,15 +23,6 @@ class _StoriesPageState extends State<StoriesPage> {
           'Story App',
           style: Style.headline1,
         ),
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await AuthLocal().removeAuthData();
-                // ignore: use_build_context_synchronously
-                context.goNamed('login');
-              },
-              icon: const Icon(Icons.logout)),
-        ],
       ),
       body: BlocBuilder<StoriesBloc, StoriesState>(
         builder: (context, state) {
@@ -45,15 +36,15 @@ class _StoriesPageState extends State<StoriesPage> {
 
           if (state is StoriesSuccess) {
             final stories = state.responseModel.listStory;
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  if (stories.isNotEmpty)
-                    ...stories.map(
-                      (story) => StoryCard(story: story),
-                    )
-                ],
+            return RefreshIndicator(
+              onRefresh: () async {
+                BlocProvider.of<StoriesBloc>(context).add(GetStoriesEvent());
+              },
+              child: ListView.builder(
+                itemCount: stories.length,
+                itemBuilder: (context, index) {
+                  return StoryCard(story: stories[index]);
+                },
               ),
             );
           }

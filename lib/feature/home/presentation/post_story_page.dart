@@ -40,8 +40,7 @@ class _PostStoryPageState extends State<PostStoryPage> {
               title: const Text('Take a Photo'),
               onTap: () {
                 _onCameraView(context);
-
-                Navigator.pop(context);
+                context.pop();
               },
             ),
             ListTile(
@@ -49,8 +48,7 @@ class _PostStoryPageState extends State<PostStoryPage> {
               title: const Text('Galery'),
               onTap: () {
                 _onGalleryView(context);
-
-                Navigator.pop(context);
+                context.pop();
               },
             ),
           ],
@@ -119,12 +117,16 @@ class _PostStoryPageState extends State<PostStoryPage> {
                   child: BlocBuilder<PostStoryBloc, PostStoryState>(
                     builder: (context, state) {
                       if (state is ImageGaleryFailed) {
-                        return const Align(
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.broken_image_rounded,
-                            size: Size.p96,
-                          ),
+                        return const Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.broken_image_rounded,
+                              size: Size.p96,
+                            ),
+                            Text("Failed to load Image"),
+                          ],
                         );
                       }
                       if (state is ImageGalerySuccess) {
@@ -132,27 +134,27 @@ class _PostStoryPageState extends State<PostStoryPage> {
                         return _showImage(state.imagePath);
                       }
                       if (state is PostStorySuccess) {
-                        return const Column(
+                        return Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.add_photo_alternate,
                               size: Size.p96,
                             ),
-                            Text("Upload Image"),
+                            Text(AppLocalizations.of(context)!.chooseImageText),
                           ],
                         );
                       }
-                      return const Column(
+                      return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.add_photo_alternate,
                             size: Size.p96,
                           ),
-                          Text("Upload Image"),
+                          Text(AppLocalizations.of(context)!.chooseImageText),
                         ],
                       );
                     },
@@ -166,9 +168,11 @@ class _PostStoryPageState extends State<PostStoryPage> {
                   child: TextFormField(
                     controller: descriptionController,
                     maxLines: 4,
-                    decoration: const InputDecoration(
-                        hintText: "Enter story description here..",
-                        border: OutlineInputBorder()),
+                    decoration: InputDecoration(
+                      hintText:
+                          AppLocalizations.of(context)!.inputDescriptionText,
+                      border: const OutlineInputBorder(),
+                    ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your description.';
@@ -184,12 +188,31 @@ class _PostStoryPageState extends State<PostStoryPage> {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       if (imageFile != null) {
+                        FocusManager.instance.primaryFocus?.unfocus();
                         _onUpload(
                             context, imageFile!, descriptionController.text);
                       }
                     }
                   },
-                  child: BlocBuilder<PostStoryBloc, PostStoryState>(
+                  child: BlocConsumer<PostStoryBloc, PostStoryState>(
+                    listener: (context, state) {
+                      if (state is PostStoryFailed) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(state.message),
+                            duration: const Duration(seconds: 3),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+
+                      if (state is PostStorySuccess) {
+                        descriptionController.clear();
+                        BlocProvider.of<StoriesBloc>(context)
+                            .add(GetStoriesEvent());
+                        context.go('/stories');
+                      }
+                    },
                     builder: (context, state) {
                       if (state is PostStoryLoading) {
                         return const CircularProgressIndicator();
