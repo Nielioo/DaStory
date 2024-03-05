@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
-final GlobalKey<NavigatorState> _shellNavigatorKey =
+final GlobalKey<NavigatorState> _homeNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> _uploadNavigatorKey =
     GlobalKey<NavigatorState>();
 
 final router = GoRouter(
@@ -19,7 +20,7 @@ final router = GoRouter(
           HomePage(child: navigationShell),
       branches: [
         StatefulShellBranch(
-          navigatorKey: _shellNavigatorKey,
+          navigatorKey: _homeNavigatorKey,
           routes: [
             GoRoute(
               name: 'home',
@@ -34,7 +35,17 @@ final router = GoRouter(
               ],
             ),
           ],
-        )
+        ),
+        StatefulShellBranch(
+          navigatorKey: _uploadNavigatorKey,
+          routes: [
+            GoRoute(
+              name: 'upload',
+              path: '/upload',
+              builder: (context, state) => const PostStoryPage(),
+            ),
+          ],
+        ),
       ],
     ),
     GoRoute(
@@ -53,7 +64,7 @@ final router = GoRouter(
   redirect: (context, state) async {
     final isLogin = await AuthLocal().isLogin();
     if (!isLogin) {
-      return '/';
+      return '/login';
     }
     return null;
   },

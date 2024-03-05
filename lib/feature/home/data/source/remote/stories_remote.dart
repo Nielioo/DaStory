@@ -53,4 +53,51 @@ class StoriesRemote {
       return Left('Error : $e');
     }
   }
+
+  Future<Either<String, RegisterResponseModel>> postStory(
+      {imageFile, description, lat = 0, lon = 0}) async {
+    final token = await AuthLocal().getToken();
+    final XFile image = imageFile;
+    final bytes = await image.readAsBytes();
+    try {
+      final url = Uri.parse("${Const.endPoint}/stories");
+      var request = http.MultipartRequest('POST', url);
+
+      final multiPartFile = http.MultipartFile.fromBytes("photo", bytes,
+          filename: imageFile.name);
+
+      final Map<String, String> fields = {
+        "description": description,
+        "lat": lat.toString(),
+        "lon": lon.toString(),
+      };
+
+      final Map<String, String> headers = {
+        "Content-type": "multipart/form-data",
+        'Authorization': 'Bearer $token',
+      };
+
+      request.files.add(multiPartFile);
+      request.fields.addAll(fields);
+      request.headers.addAll(headers);
+
+      final http.StreamedResponse streamedResponse = await request.send();
+      final int statusCode = streamedResponse.statusCode;
+
+      final Uint8List responseList = await streamedResponse.stream.toBytes();
+      final String responseData = String.fromCharCodes(responseList);
+
+      if (statusCode == 201) {
+        return Right(
+          registerResponseModelFromJson(responseData),
+        );
+      }
+
+      return const Left(
+        "Failed to upload image.",
+      );
+    } catch (e) {
+      return Left('Error : $e');
+    }
+  }
 }

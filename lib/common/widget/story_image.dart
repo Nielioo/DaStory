@@ -9,7 +9,6 @@ class StoryImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: Size.screenWidth(context),
-      height: Size.screenWidth(context) * 2 / 3,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(Size.p12),
         child: Image.network(

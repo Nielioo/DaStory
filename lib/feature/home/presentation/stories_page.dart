@@ -33,10 +33,7 @@ class _StoriesPageState extends State<StoriesPage> {
               icon: const Icon(Icons.logout)),
         ],
       ),
-      body: BlocConsumer<StoriesBloc, StoriesState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
+      body: BlocBuilder<StoriesBloc, StoriesState>(
         builder: (context, state) {
           if (state is StoriesLoading) {
             return const Center(
@@ -53,11 +50,9 @@ class _StoriesPageState extends State<StoriesPage> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   if (stories.isNotEmpty)
-                    ...stories
-                        .map(
-                          (story) => StoryCard(story: story),
-                        )
-                        .toList()
+                    ...stories.map(
+                      (story) => StoryCard(story: story),
+                    )
                 ],
               ),
             );

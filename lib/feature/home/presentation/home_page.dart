@@ -9,36 +9,6 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-showModalUploadMenu(BuildContext context) {
-  return showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    useRootNavigator: true,
-    backgroundColor: amber50,
-    builder: (context) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            leading: const Icon(Icons.photo),
-            title: const Text('Photo'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.folder),
-            title: const Text('Folder'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
-
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
@@ -51,16 +21,11 @@ class _HomePageState extends State<HomePage> {
         unselectedItemColor: violet950,
         currentIndex: widget.child.currentIndex,
         onTap: (index) {
-          if (index == 1) {
-            Container(
-              child: showModalUploadMenu(context),
-            );
-          } else {
-            widget.child.goBranch(
-              index,
-              initialLocation: index == widget.child.currentIndex,
-            );
-          }
+          widget.child.goBranch(
+            index,
+            initialLocation: index == widget.child.currentIndex,
+          );
+          setState(() {});
         },
         items: const [
           BottomNavigationBarItem(
@@ -69,7 +34,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add_a_photo),
-            label: 'Story',
+            label: 'Upload',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),

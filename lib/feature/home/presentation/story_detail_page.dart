@@ -36,10 +36,7 @@ class _StoryDetailPageState extends State<StoryDetailPage> {
           IconButton(onPressed: () async {}, icon: const Icon(Icons.more_vert)),
         ],
       ),
-      body: BlocConsumer<StoryDetailBloc, StoryDetailState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
+      body: BlocBuilder<StoryDetailBloc, StoryDetailState>(
         builder: (context, state) {
           if (state is StoryDetailFailed) {
             return Center(
@@ -54,29 +51,31 @@ class _StoryDetailPageState extends State<StoryDetailPage> {
             );
           }
           if (state is StoryDetailSuccess) {
-            return Padding(
-              padding: const EdgeInsets.all(Size.p8),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ProfileBar(
-                    imageUrl: state.responseModel.story?.photoUrl ?? '',
-                    name: state.responseModel.story?.name ?? '',
-                  ),
-                  Gap.h4,
-                  StoryImage(
-                    imageUrl: state.responseModel.story?.photoUrl ?? '',
-                  ),
-                  Gap.h4,
-                  const StoryReactButton(),
-                  Gap.h4,
-                  StoryDescription(
-                    name: state.responseModel.story?.name ?? '',
-                    description: state.responseModel.story?.description ?? '',
-                    date: state.responseModel.story!.createdAt!,
-                  ),
-                ],
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(Size.p8),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ProfileBar(
+                      imageUrl: state.responseModel.story?.photoUrl ?? '',
+                      name: state.responseModel.story?.name ?? '',
+                    ),
+                    Gap.h4,
+                    StoryImage(
+                      imageUrl: state.responseModel.story?.photoUrl ?? '',
+                    ),
+                    Gap.h4,
+                    const StoryReactButton(),
+                    Gap.h4,
+                    StoryDescription(
+                      name: state.responseModel.story?.name ?? '',
+                      description: state.responseModel.story?.description ?? '',
+                      date: state.responseModel.story!.createdAt!,
+                    ),
+                  ],
+                ),
               ),
             );
           }
