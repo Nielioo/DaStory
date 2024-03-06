@@ -8,7 +8,7 @@ import 'package:dastory/feature/home/bloc/post_story/post_story_bloc.dart';
 import 'package:dastory/feature/home/bloc/stories/stories_bloc.dart';
 import 'package:dastory/feature/home/bloc/story_detail/story_detail_bloc.dart';
 import 'package:dastory/feature/language/bloc/language_bloc.dart';
-import 'package:dastory/feature/language/model/language_model.dart';
+import 'package:dastory/feature/language/data/model/language_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
