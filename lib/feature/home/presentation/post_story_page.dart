@@ -15,8 +15,8 @@ class _PostStoryPageState extends State<PostStoryPage> {
 
   @override
   void initState() {
-    descriptionController = TextEditingController();
     super.initState();
+    descriptionController = TextEditingController();
   }
 
   @override
@@ -37,7 +37,7 @@ class _PostStoryPageState extends State<PostStoryPage> {
           children: [
             ListTile(
               leading: const Icon(Icons.photo_camera),
-              title: const Text('Take a Photo'),
+              title: Text(AppLocalizations.of(context)!.cameraText),
               onTap: () {
                 _onCameraView(context);
                 context.pop();
@@ -45,7 +45,7 @@ class _PostStoryPageState extends State<PostStoryPage> {
             ),
             ListTile(
               leading: const Icon(Icons.photo_library),
-              title: const Text('Galery'),
+              title: Text(AppLocalizations.of(context)!.galeryText),
               onTap: () {
                 _onGalleryView(context);
                 context.pop();
@@ -223,7 +223,6 @@ class _PostStoryPageState extends State<PostStoryPage> {
                       }
 
                       if (state is PostStorySuccess) {
-                        descriptionController.text = '';
                         BlocProvider.of<StoriesBloc>(context)
                             .add(GetStoriesEvent());
                         context.go('/stories');

@@ -25,7 +25,7 @@ class _StoryDetailPageState extends State<StoryDetailPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            context.pop();
           },
         ),
         title: Text(

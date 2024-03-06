@@ -76,6 +76,10 @@ final router = GoRouter(
   redirect: (context, state) async {
     final isLogin = await AuthLocal().isLogin();
     if (!isLogin) {
+      if (state.matchedLocation == '/login' ||
+          state.matchedLocation == '/register') {
+        return null;
+      }
       return '/login';
     }
     return null;
