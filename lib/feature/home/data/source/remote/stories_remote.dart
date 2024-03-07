@@ -1,7 +1,7 @@
 part of '../../datas.dart';
 
 class StoriesRemote {
-  Future<Either<String, GetStoriesResponseModel>> getStroies() async {
+  Future<Either<String, GetStoriesResponseModel>> getStories() async {
     final token = await AuthLocal().getToken();
     try {
       final url = Uri.parse("${Const.endPoint}/stories");
@@ -20,7 +20,7 @@ class StoriesRemote {
       }
 
       return Left(
-        getStoriesResponseModelFromJson(response.body).message,
+        getStoriesResponseModelFromJson(response.body).message!,
       );
     } catch (e) {
       return Left('Error : $e');

@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(
             create: (context) => StoriesBloc(
               StoriesRemote(),
-            )..add(GetStoriesEvent()),
+            ),
           ),
           BlocProvider(
             create: (context) => StoryDetailBloc(
@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           BlocProvider(
-            create: (context) => PostStoryBloc(
+            create: (context) => PickImageStoryBloc(
               StoriesRemote(),
             ),
           )

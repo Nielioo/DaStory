@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
       password: _passwordController.text,
     );
     BlocProvider.of<AuthBloc>(context).add(
-      LoginAuthEvent(requestModel: requestModel),
+      AuthEvent.login(requestModel),
     );
   }
 
@@ -36,49 +36,49 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is LoginFailed) {
-            context.pop();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
-
-          if (state is LoginSuccess) {
-            context.pop();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.responseModel.message!),
-                backgroundColor: Colors.green,
-              ),
-            );
-            context.goNamed('home');
-          }
-
-          if (state is LoginLoading) {
-            showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (_) {
-                return const Dialog(
-                  backgroundColor: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: Size.p32),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        CircularProgressIndicator(),
-                        Gap.h12,
-                        Text('Please Wait...')
-                      ],
+          state.mapOrNull(
+            loginLoading: (value) {
+              showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (_) {
+                  return const Dialog(
+                    backgroundColor: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: Size.p32),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CircularProgressIndicator(),
+                          Gap.h12,
+                          Text('Please Wait...')
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
-            );
-          }
+                  );
+                },
+              );
+            },
+            loginSuccess: (value) {
+              context.pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(value.responseModel.message!),
+                  backgroundColor: Colors.green,
+                ),
+              );
+              context.goNamed('home');
+            },
+            loginFailed: (value) {
+              context.pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(value.message),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            },
+          );
         },
         child: SingleChildScrollView(
           child: Column(

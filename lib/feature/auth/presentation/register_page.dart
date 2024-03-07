@@ -30,8 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
       password: _passwordController.text,
     );
 
-    BlocProvider.of<AuthBloc>(context)
-        .add(RegisterAuthEvent(requestModel: requestModel));
+    BlocProvider.of<AuthBloc>(context).add(AuthEvent.register(requestModel));
   }
 
   @override
@@ -39,49 +38,49 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is RegisterFailed) {
-            context.pop();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
-
-          if (state is RegisterSuccess) {
-            context.pop();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.responseModel.message),
-                backgroundColor: Colors.green,
-              ),
-            );
-            context.goNamed('login');
-          }
-
-          if (state is RegisterLoading) {
-            showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (_) {
-                return const Dialog(
-                  backgroundColor: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: Size.p32),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        CircularProgressIndicator(),
-                        Gap.h12,
-                        Text('Please Wait...')
-                      ],
+          state.mapOrNull(
+            registerLoading: (value) {
+              showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (_) {
+                  return const Dialog(
+                    backgroundColor: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: Size.p32),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CircularProgressIndicator(),
+                          Gap.h12,
+                          Text('Please Wait...')
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
-            );
-          }
+                  );
+                },
+              );
+            },
+            registerSuccess: (value) {
+              context.pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(value.responseModel.message!),
+                  backgroundColor: Colors.green,
+                ),
+              );
+              context.goNamed('login');
+            },
+            registerFailed: (value) {
+              context.pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(value.message),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            },
+          );
         },
         child: SingleChildScrollView(
           child: Column(

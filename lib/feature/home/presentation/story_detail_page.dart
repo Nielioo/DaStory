@@ -13,7 +13,7 @@ class _StoryDetailPageState extends State<StoryDetailPage> {
   @override
   void initState() {
     BlocProvider.of<StoryDetailBloc>(context)
-        .add(GetDetailStoryEvent(storyId: widget.storyId));
+        .add(StoryDetailEvent.add(widget.storyId));
     super.initState();
   }
 
@@ -38,48 +38,52 @@ class _StoryDetailPageState extends State<StoryDetailPage> {
       ),
       body: BlocBuilder<StoryDetailBloc, StoryDetailState>(
         builder: (context, state) {
-          if (state is StoryDetailFailed) {
-            return Center(
-              child: Text('FAILED: ${state.message}'),
-            );
-          }
-          if (state is StoryDetailLoading) {
-            return const Center(
+          return state.when(
+            initial: () => const Center(
               child: CircularProgressIndicator(
                 color: violet950,
               ),
-            );
-          }
-          if (state is StoryDetailSuccess) {
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(Size.p8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ProfileBar(
-                      imageUrl: state.responseModel.story?.photoUrl ?? '',
-                      name: state.responseModel.story?.name ?? '',
-                    ),
-                    Gap.h4,
-                    StoryImage(
-                      imageUrl: state.responseModel.story?.photoUrl ?? '',
-                    ),
-                    Gap.h4,
-                    const StoryReactButton(),
-                    Gap.h4,
-                    StoryDescription(
-                      name: state.responseModel.story?.name ?? '',
-                      description: state.responseModel.story?.description ?? '',
-                      date: state.responseModel.story!.createdAt!,
-                    ),
-                  ],
-                ),
+            ),
+            loading: () => const Center(
+              child: CircularProgressIndicator(
+                color: violet950,
               ),
-            );
-          }
-          return const SizedBox();
+            ),
+            failed: (value) {
+              return Center(
+                child: Text('FAILED: $value'),
+              );
+            },
+            success: (responseModel) {
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(Size.p8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ProfileBar(
+                        imageUrl: responseModel.story?.photoUrl ?? '',
+                        name: responseModel.story?.name ?? '',
+                      ),
+                      Gap.h4,
+                      StoryImage(
+                        imageUrl: responseModel.story?.photoUrl ?? '',
+                      ),
+                      Gap.h4,
+                      const StoryReactButton(),
+                      Gap.h4,
+                      StoryDescription(
+                        name: responseModel.story?.name ?? '',
+                        description: responseModel.story?.description ?? '',
+                        date: responseModel.story!.createdAt!,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
         },
       ),
     );

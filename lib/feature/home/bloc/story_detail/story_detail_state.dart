@@ -1,30 +1,11 @@
 part of 'story_detail_bloc.dart';
 
-sealed class StoryDetailState extends Equatable {
-  const StoryDetailState();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class StoryDetailInitial extends StoryDetailState {}
-
-final class StoryDetailLoading extends StoryDetailState {}
-
-final class StoryDetailFailed extends StoryDetailState {
-  final String message;
-
-  const StoryDetailFailed({required this.message});
-
-  @override
-  List<Object> get props => [message];
-}
-
-final class StoryDetailSuccess extends StoryDetailState {
-  final GetDetailStoryResponseModel responseModel;
-
-  const StoryDetailSuccess({required this.responseModel});
-
-  @override
-  List<Object> get props => [responseModel];
+@freezed
+class StoryDetailState with _$StoryDetailState {
+  const factory StoryDetailState.initial() = _Initial;
+  const factory StoryDetailState.loading() = _StoryDetailLoading;
+  const factory StoryDetailState.failed(String message) =
+      _StoryDetailFailed;
+  const factory StoryDetailState.success(
+      GetDetailStoryResponseModel responseModel) = _StoryDetailSuccess;
 }

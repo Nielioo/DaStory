@@ -58,12 +58,14 @@ class _PostStoryPageState extends State<PostStoryPage> {
   }
 
   _onUpload(BuildContext context, XFile imageFile, String description) {
-    BlocProvider.of<PostStoryBloc>(context).add(DoPostStoryEvent(
-      imageFile: imageFile,
-      description: description,
-      lat: 0,
-      lon: 0,
-    ));
+    BlocProvider.of<PickImageStoryBloc>(context).add(
+      PickImageStoryEvent.uploadImage(
+        imageFile: imageFile,
+        description: description,
+        lat: 0,
+        lon: 0,
+      ),
+    );
   }
 
   Widget _showImage(String imagePath) {
@@ -82,7 +84,8 @@ class _PostStoryPageState extends State<PostStoryPage> {
     final isMacOS = defaultTargetPlatform == TargetPlatform.macOS;
     final isLinux = defaultTargetPlatform == TargetPlatform.linux;
     if (isMacOS || isLinux) return;
-    BlocProvider.of<PostStoryBloc>(context).add(PickImageGaleryEvent());
+    BlocProvider.of<PickImageStoryBloc>(context)
+        .add(const PickImageStoryEvent.pickImageGalery());
   }
 
   _onCameraView(BuildContext context) async {
@@ -90,7 +93,8 @@ class _PostStoryPageState extends State<PostStoryPage> {
     final isiOS = defaultTargetPlatform == TargetPlatform.iOS;
     final isNotMobile = !(isAndroid || isiOS);
     if (isNotMobile) return;
-    BlocProvider.of<PostStoryBloc>(context).add(PickImageCameraGaleryEvent());
+    BlocProvider.of<PickImageStoryBloc>(context)
+        .add(const PickImageStoryEvent.pickImagePhoto());
   }
 
   @override
@@ -114,27 +118,10 @@ class _PostStoryPageState extends State<PostStoryPage> {
                 flex: 3,
                 child: GestureDetector(
                   onTap: () => showModalUploadMenu(context),
-                  child: BlocBuilder<PostStoryBloc, PostStoryState>(
+                  child: BlocBuilder<PickImageStoryBloc, PickImageStoryState>(
                     builder: (context, state) {
-                      if (state is ImageGaleryFailed) {
-                        return const Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.broken_image_rounded,
-                              size: Size.p96,
-                            ),
-                            Text("Failed to load Image"),
-                          ],
-                        );
-                      }
-                      if (state is ImageGalerySuccess) {
-                        imageFile = state.imageFile;
-                        return _showImage(state.imagePath);
-                      }
-                      if (state is PostStorySuccess) {
-                        return Column(
+                      return state.maybeWhen(
+                        initial: () => Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -144,18 +131,49 @@ class _PostStoryPageState extends State<PostStoryPage> {
                             ),
                             Text(AppLocalizations.of(context)!.chooseImageText),
                           ],
-                        );
-                      }
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.add_photo_alternate,
-                            size: Size.p96,
-                          ),
-                          Text(AppLocalizations.of(context)!.chooseImageText),
-                        ],
+                        ),
+                        success: (imgPath, imgFile) {
+                          imageFile = imgFile;
+                          return _showImage(imgPath);
+                        },
+                        failed: (message) {
+                          return const Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.broken_image_rounded,
+                                size: Size.p96,
+                              ),
+                              Text("Failed to load Image."),
+                            ],
+                          );
+                        },
+                        postSuccess: (responseModel) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.add_photo_alternate,
+                                size: Size.p96,
+                              ),
+                              Text(AppLocalizations.of(context)!
+                                  .chooseImageText),
+                            ],
+                          );
+                        },
+                        orElse: () => Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.add_photo_alternate,
+                              size: Size.p96,
+                            ),
+                            Text(AppLocalizations.of(context)!.chooseImageText),
+                          ],
+                        ),
                       );
                     },
                   ),
@@ -194,44 +212,33 @@ class _PostStoryPageState extends State<PostStoryPage> {
                       }
                     }
                   },
-                  child: BlocConsumer<PostStoryBloc, PostStoryState>(
+                  child: BlocConsumer<PickImageStoryBloc, PickImageStoryState>(
                     listener: (context, state) {
-                      if (state is PostStoryFailed) {
-                        ScaffoldMessenger.of(context).showSnackBar(
+                      state.whenOrNull(
+                        postFailed: (message) =>
+                            ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(state.message),
+                            content: Text(message),
                             duration: const Duration(seconds: 3),
                             backgroundColor: Colors.red,
                           ),
-                        );
-                      }
-
-                      if (state is PostStorySuccess) {
-                        descriptionController.clear();
-                        BlocProvider.of<StoriesBloc>(context)
-                            .add(GetStoriesEvent());
-                        context.go('/stories');
-                      }
+                        ),
+                        postSuccess: (responseModel) {
+                          descriptionController.clear();
+                          BlocProvider.of<StoriesBloc>(context)
+                              .add(const StoriesEvent.add());
+                          context.go('/stories');
+                        },
+                      );
                     },
                     builder: (context, state) {
-                      if (state is PostStoryLoading) {
-                        return const CircularProgressIndicator();
-                      }
-
-                      if (state is PostStoryFailed) {
-                        return Text('Error : ${state.message}');
-                      }
-
-                      if (state is PostStorySuccess) {
-                        BlocProvider.of<StoriesBloc>(context)
-                            .add(GetStoriesEvent());
-                        context.go('/stories');
-                      }
-
-                      return const Text(
-                        'Upload',
-                        style: TextStyle(
-                          color: Colors.black,
+                      return state.maybeWhen(
+                        postLoading: () => const CircularProgressIndicator(),
+                        orElse: () => const Text(
+                          'Upload',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
                         ),
                       );
                     },

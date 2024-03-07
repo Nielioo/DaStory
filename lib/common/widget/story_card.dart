@@ -25,8 +25,8 @@ class _StoryCardState extends State<StoryCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ProfileBar(
-                imageUrl: widget.story.photoUrl,
-                name: widget.story.name,
+                imageUrl: widget.story.photoUrl!,
+                name: widget.story.name!,
               ),
               Gap.h4,
               GestureDetector(
@@ -34,16 +34,16 @@ class _StoryCardState extends State<StoryCard> {
                   context.push('/stories/${widget.story.id}');
                 },
                 child: StoryImage(
-                  imageUrl: widget.story.photoUrl,
+                  imageUrl: widget.story.photoUrl!,
                 ),
               ),
               Gap.h4,
               const StoryReactButton(),
               Gap.h4,
               StoryDescription(
-                name: widget.story.name,
-                description: widget.story.description,
-                date: widget.story.createdAt,
+                name: widget.story.name!,
+                description: widget.story.description!,
+                date: widget.story.createdAt!,
               ),
             ],
           ),

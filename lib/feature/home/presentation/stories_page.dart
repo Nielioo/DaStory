@@ -10,7 +10,7 @@ class StoriesPage extends StatefulWidget {
 class _StoriesPageState extends State<StoriesPage> {
   @override
   void initState() {
-    BlocProvider.of<StoriesBloc>(context).add(GetStoriesEvent());
+    BlocProvider.of<StoriesBloc>(context).add(const StoriesEvent.add());
     super.initState();
   }
 
@@ -24,32 +24,37 @@ class _StoriesPageState extends State<StoriesPage> {
           style: Style.headline1,
         ),
       ),
-      body: BlocBuilder<StoriesBloc, StoriesState>(
-        builder: (context, state) {
-          if (state is StoriesLoading) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: violet950,
+      body: RefreshIndicator(
+        onRefresh: () async =>
+            BlocProvider.of<StoriesBloc>(context).add(const StoriesEvent.add()),
+        child: BlocBuilder<StoriesBloc, StoriesState>(
+          builder: (context, state) {
+            return state.when(
+              loading: () => const Center(
+                child: CircularProgressIndicator(
+                  color: violet950,
+                ),
               ),
-            );
-          }
-
-          if (state is StoriesSuccess) {
-            final stories = state.responseModel.listStory;
-            return RefreshIndicator(
-              onRefresh: () async {
-                BlocProvider.of<StoriesBloc>(context).add(GetStoriesEvent());
+              initial: () => const Center(
+                child: CircularProgressIndicator(
+                  color: violet950,
+                ),
+              ),
+              success: (responseModel) {
+                final stories = responseModel.listStory;
+                return ListView.builder(
+                  itemCount: stories?.length,
+                  itemBuilder: (context, index) {
+                    return StoryCard(story: stories![index]);
+                  },
+                );
               },
-              child: ListView.builder(
-                itemCount: stories.length,
-                itemBuilder: (context, index) {
-                  return StoryCard(story: stories[index]);
-                },
+              failed: (String message) => Center(
+                child: Text(message),
               ),
             );
-          }
-          return Container();
-        },
+          },
+        ),
       ),
     );
   }

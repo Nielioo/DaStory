@@ -1,35 +1,18 @@
 part of 'post_story_bloc.dart';
 
-abstract class PostStoryState {
-  const PostStoryState();
-}
+@freezed
+class PickImageStoryState with _$PickImageStoryState {
+  const factory PickImageStoryState.initial() = _Initial;
+  const factory PickImageStoryState.loading() = _PickImageStoryLoading;
+  const factory PickImageStoryState.failed(String message) =
+      _PickImageStoryFailed;
+  const factory PickImageStoryState.success(
+      {required String imagePath,
+      required XFile imageFile}) = _PickImageStorySuccess;
 
-final class ImageGaleryLoading extends PostStoryState {}
-
-final class ImageGaleryFailed extends PostStoryState {
-  final String message;
-  const ImageGaleryFailed({required this.message});
-}
-
-final class ImageGalerySuccess extends PostStoryState {
-  final String imagePath;
-  final XFile imageFile;
-
-  const ImageGalerySuccess({required this.imagePath, required this.imageFile});
-}
-
-final class PostStoryInitial extends PostStoryState {}
-
-final class PostStoryLoading extends PostStoryState {}
-
-final class PostStoryFailed extends PostStoryState {
-  final String message;
-
-  const PostStoryFailed({required this.message});
-}
-
-final class PostStorySuccess extends PostStoryState {
-  final RegisterResponseModel responseModel;
-
-  const PostStorySuccess({required this.responseModel});
+  const factory PickImageStoryState.postLoading() = _PickImagePostLoading;
+  const factory PickImageStoryState.postFailed(String message) =
+      _PickImagePostFailed;
+  const factory PickImageStoryState.postSuccess(
+      RegisterResponseModel responseModel) = _PickImagePostSuccess;
 }
