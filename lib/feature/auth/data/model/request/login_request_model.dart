@@ -13,7 +13,7 @@ String loginRequestModelToJson(LoginRequestModel data) =>
 
 @freezed
 class LoginRequestModel with _$LoginRequestModel {
-    const factory LoginRequestModel({
+  const factory LoginRequestModel({
     String? email,
     String? password,
   }) = _LoginRequestModel;

@@ -12,7 +12,7 @@ String registerResponseModelToJson(RegisterResponseModel data) =>
     json.encode(data.toJson());
 
 @freezed
-class RegisterResponseModel with _$RegisterResponseModel{
+class RegisterResponseModel with _$RegisterResponseModel {
   const factory RegisterResponseModel({
     bool? error,
     String? message,

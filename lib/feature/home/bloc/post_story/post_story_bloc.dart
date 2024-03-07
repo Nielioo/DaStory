@@ -30,7 +30,8 @@ class PickImageStoryBloc
               ),
             );
           }
-          return emit(const PickImageStoryState.failed('Failed to choose image'));
+          return emit(
+              const PickImageStoryState.failed('Failed to choose image'));
         } catch (e) {
           return emit(PickImageStoryState.failed('Error: $e'));
         }
@@ -54,7 +55,8 @@ class PickImageStoryBloc
               ),
             );
           }
-          return emit(const PickImageStoryState.failed('Failed to choose image'));
+          return emit(
+              const PickImageStoryState.failed('Failed to choose image'));
         } catch (e) {
           return emit(PickImageStoryState.failed('Error : $e'));
         }
