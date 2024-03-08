@@ -19,18 +19,21 @@ mixin _$StoriesEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
+    required TResult Function() first,
     required TResult Function() add,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
+    TResult? Function()? first,
     TResult? Function()? add,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
+    TResult Function()? first,
     TResult Function()? add,
     required TResult orElse(),
   }) =>
@@ -38,18 +41,21 @@ mixin _$StoriesEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
+    required TResult Function(_First value) first,
     required TResult Function(_Add value) add,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
+    TResult? Function(_First value)? first,
     TResult? Function(_Add value)? add,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
+    TResult Function(_First value)? first,
     TResult Function(_Add value)? add,
     required TResult orElse(),
   }) =>
@@ -113,6 +119,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
+    required TResult Function() first,
     required TResult Function() add,
   }) {
     return started();
@@ -122,6 +129,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
+    TResult? Function()? first,
     TResult? Function()? add,
   }) {
     return started?.call();
@@ -131,6 +139,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
+    TResult Function()? first,
     TResult Function()? add,
     required TResult orElse(),
   }) {
@@ -144,6 +153,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
+    required TResult Function(_First value) first,
     required TResult Function(_Add value) add,
   }) {
     return started(this);
@@ -153,6 +163,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
+    TResult? Function(_First value)? first,
     TResult? Function(_Add value)? add,
   }) {
     return started?.call(this);
@@ -162,6 +173,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
+    TResult Function(_First value)? first,
     TResult Function(_Add value)? add,
     required TResult orElse(),
   }) {
@@ -174,6 +186,114 @@ class _$StartedImpl implements _Started {
 
 abstract class _Started implements StoriesEvent {
   const factory _Started() = _$StartedImpl;
+}
+
+/// @nodoc
+abstract class _$$FirstImplCopyWith<$Res> {
+  factory _$$FirstImplCopyWith(
+          _$FirstImpl value, $Res Function(_$FirstImpl) then) =
+      __$$FirstImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FirstImplCopyWithImpl<$Res>
+    extends _$StoriesEventCopyWithImpl<$Res, _$FirstImpl>
+    implements _$$FirstImplCopyWith<$Res> {
+  __$$FirstImplCopyWithImpl(
+      _$FirstImpl _value, $Res Function(_$FirstImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$FirstImpl implements _First {
+  const _$FirstImpl();
+
+  @override
+  String toString() {
+    return 'StoriesEvent.first()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$FirstImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() first,
+    required TResult Function() add,
+  }) {
+    return first();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? first,
+    TResult? Function()? add,
+  }) {
+    return first?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? first,
+    TResult Function()? add,
+    required TResult orElse(),
+  }) {
+    if (first != null) {
+      return first();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_First value) first,
+    required TResult Function(_Add value) add,
+  }) {
+    return first(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_First value)? first,
+    TResult? Function(_Add value)? add,
+  }) {
+    return first?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_First value)? first,
+    TResult Function(_Add value)? add,
+    required TResult orElse(),
+  }) {
+    if (first != null) {
+      return first(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _First implements StoriesEvent {
+  const factory _First() = _$FirstImpl;
 }
 
 /// @nodoc
@@ -213,6 +333,7 @@ class _$AddImpl implements _Add {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
+    required TResult Function() first,
     required TResult Function() add,
   }) {
     return add();
@@ -222,6 +343,7 @@ class _$AddImpl implements _Add {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
+    TResult? Function()? first,
     TResult? Function()? add,
   }) {
     return add?.call();
@@ -231,6 +353,7 @@ class _$AddImpl implements _Add {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
+    TResult Function()? first,
     TResult Function()? add,
     required TResult orElse(),
   }) {
@@ -244,6 +367,7 @@ class _$AddImpl implements _Add {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
+    required TResult Function(_First value) first,
     required TResult Function(_Add value) add,
   }) {
     return add(this);
@@ -253,6 +377,7 @@ class _$AddImpl implements _Add {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
+    TResult? Function(_First value)? first,
     TResult? Function(_Add value)? add,
   }) {
     return add?.call(this);
@@ -262,6 +387,7 @@ class _$AddImpl implements _Add {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
+    TResult Function(_First value)? first,
     TResult Function(_Add value)? add,
     required TResult orElse(),
   }) {
@@ -283,7 +409,7 @@ mixin _$StoriesState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String message) failed,
-    required TResult Function(GetStoriesResponseModel responseModel) success,
+    required TResult Function(List<ListStory>? listStory) success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -291,7 +417,7 @@ mixin _$StoriesState {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String message)? failed,
-    TResult? Function(GetStoriesResponseModel responseModel)? success,
+    TResult? Function(List<ListStory>? listStory)? success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -299,7 +425,7 @@ mixin _$StoriesState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? failed,
-    TResult Function(GetStoriesResponseModel responseModel)? success,
+    TResult Function(List<ListStory>? listStory)? success,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -389,7 +515,7 @@ class _$StoriesInitialImpl implements _StoriesInitial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String message) failed,
-    required TResult Function(GetStoriesResponseModel responseModel) success,
+    required TResult Function(List<ListStory>? listStory) success,
   }) {
     return initial();
   }
@@ -400,7 +526,7 @@ class _$StoriesInitialImpl implements _StoriesInitial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String message)? failed,
-    TResult? Function(GetStoriesResponseModel responseModel)? success,
+    TResult? Function(List<ListStory>? listStory)? success,
   }) {
     return initial?.call();
   }
@@ -411,7 +537,7 @@ class _$StoriesInitialImpl implements _StoriesInitial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? failed,
-    TResult Function(GetStoriesResponseModel responseModel)? success,
+    TResult Function(List<ListStory>? listStory)? success,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -503,7 +629,7 @@ class _$StoriesLoadingImpl implements _StoriesLoading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String message) failed,
-    required TResult Function(GetStoriesResponseModel responseModel) success,
+    required TResult Function(List<ListStory>? listStory) success,
   }) {
     return loading();
   }
@@ -514,7 +640,7 @@ class _$StoriesLoadingImpl implements _StoriesLoading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String message)? failed,
-    TResult? Function(GetStoriesResponseModel responseModel)? success,
+    TResult? Function(List<ListStory>? listStory)? success,
   }) {
     return loading?.call();
   }
@@ -525,7 +651,7 @@ class _$StoriesLoadingImpl implements _StoriesLoading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? failed,
-    TResult Function(GetStoriesResponseModel responseModel)? success,
+    TResult Function(List<ListStory>? listStory)? success,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -643,7 +769,7 @@ class _$StoriesFailedImpl implements _StoriesFailed {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String message) failed,
-    required TResult Function(GetStoriesResponseModel responseModel) success,
+    required TResult Function(List<ListStory>? listStory) success,
   }) {
     return failed(message);
   }
@@ -654,7 +780,7 @@ class _$StoriesFailedImpl implements _StoriesFailed {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String message)? failed,
-    TResult? Function(GetStoriesResponseModel responseModel)? success,
+    TResult? Function(List<ListStory>? listStory)? success,
   }) {
     return failed?.call(message);
   }
@@ -665,7 +791,7 @@ class _$StoriesFailedImpl implements _StoriesFailed {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? failed,
-    TResult Function(GetStoriesResponseModel responseModel)? success,
+    TResult Function(List<ListStory>? listStory)? success,
     required TResult orElse(),
   }) {
     if (failed != null) {
@@ -727,9 +853,7 @@ abstract class _$$StoriesSuccessImplCopyWith<$Res> {
           $Res Function(_$StoriesSuccessImpl) then) =
       __$$StoriesSuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({GetStoriesResponseModel responseModel});
-
-  $GetStoriesResponseModelCopyWith<$Res> get responseModel;
+  $Res call({List<ListStory>? listStory});
 }
 
 /// @nodoc
@@ -743,37 +867,36 @@ class __$$StoriesSuccessImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? responseModel = null,
+    Object? listStory = freezed,
   }) {
     return _then(_$StoriesSuccessImpl(
-      null == responseModel
-          ? _value.responseModel
-          : responseModel // ignore: cast_nullable_to_non_nullable
-              as GetStoriesResponseModel,
+      freezed == listStory
+          ? _value._listStory
+          : listStory // ignore: cast_nullable_to_non_nullable
+              as List<ListStory>?,
     ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $GetStoriesResponseModelCopyWith<$Res> get responseModel {
-    return $GetStoriesResponseModelCopyWith<$Res>(_value.responseModel,
-        (value) {
-      return _then(_value.copyWith(responseModel: value));
-    });
   }
 }
 
 /// @nodoc
 
 class _$StoriesSuccessImpl implements _StoriesSuccess {
-  const _$StoriesSuccessImpl(this.responseModel);
+  const _$StoriesSuccessImpl(final List<ListStory>? listStory)
+      : _listStory = listStory;
 
+  final List<ListStory>? _listStory;
   @override
-  final GetStoriesResponseModel responseModel;
+  List<ListStory>? get listStory {
+    final value = _listStory;
+    if (value == null) return null;
+    if (_listStory is EqualUnmodifiableListView) return _listStory;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'StoriesState.success(responseModel: $responseModel)';
+    return 'StoriesState.success(listStory: $listStory)';
   }
 
   @override
@@ -781,12 +904,13 @@ class _$StoriesSuccessImpl implements _StoriesSuccess {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StoriesSuccessImpl &&
-            (identical(other.responseModel, responseModel) ||
-                other.responseModel == responseModel));
+            const DeepCollectionEquality()
+                .equals(other._listStory, _listStory));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, responseModel);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_listStory));
 
   @JsonKey(ignore: true)
   @override
@@ -801,9 +925,9 @@ class _$StoriesSuccessImpl implements _StoriesSuccess {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String message) failed,
-    required TResult Function(GetStoriesResponseModel responseModel) success,
+    required TResult Function(List<ListStory>? listStory) success,
   }) {
-    return success(responseModel);
+    return success(listStory);
   }
 
   @override
@@ -812,9 +936,9 @@ class _$StoriesSuccessImpl implements _StoriesSuccess {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String message)? failed,
-    TResult? Function(GetStoriesResponseModel responseModel)? success,
+    TResult? Function(List<ListStory>? listStory)? success,
   }) {
-    return success?.call(responseModel);
+    return success?.call(listStory);
   }
 
   @override
@@ -823,11 +947,11 @@ class _$StoriesSuccessImpl implements _StoriesSuccess {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? failed,
-    TResult Function(GetStoriesResponseModel responseModel)? success,
+    TResult Function(List<ListStory>? listStory)? success,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(responseModel);
+      return success(listStory);
     }
     return orElse();
   }
@@ -871,10 +995,10 @@ class _$StoriesSuccessImpl implements _StoriesSuccess {
 }
 
 abstract class _StoriesSuccess implements StoriesState {
-  const factory _StoriesSuccess(final GetStoriesResponseModel responseModel) =
+  const factory _StoriesSuccess(final List<ListStory>? listStory) =
       _$StoriesSuccessImpl;
 
-  GetStoriesResponseModel get responseModel;
+  List<ListStory>? get listStory;
   @JsonKey(ignore: true)
   _$$StoriesSuccessImplCopyWith<_$StoriesSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;

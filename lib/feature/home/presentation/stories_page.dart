@@ -8,10 +8,24 @@ class StoriesPage extends StatefulWidget {
 }
 
 class _StoriesPageState extends State<StoriesPage> {
+  final ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
-    BlocProvider.of<StoriesBloc>(context).add(const StoriesEvent.add());
+    BlocProvider.of<StoriesBloc>(context).add(const StoriesEvent.first());
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent) {
+        BlocProvider.of<StoriesBloc>(context).add(const StoriesEvent.add());
+      }
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -25,8 +39,8 @@ class _StoriesPageState extends State<StoriesPage> {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () async =>
-            BlocProvider.of<StoriesBloc>(context).add(const StoriesEvent.add()),
+        onRefresh: () async => BlocProvider.of<StoriesBloc>(context)
+            .add(const StoriesEvent.first()),
         child: BlocBuilder<StoriesBloc, StoriesState>(
           builder: (context, state) {
             return state.when(
@@ -40,12 +54,21 @@ class _StoriesPageState extends State<StoriesPage> {
                   color: violet950,
                 ),
               ),
-              success: (responseModel) {
-                final stories = responseModel.listStory;
+              success: (listStory) {
+                final stories = listStory;
                 return ListView.builder(
-                  itemCount: stories?.length,
+                  controller: scrollController,
+                  itemCount: stories!.length + 1,
                   itemBuilder: (context, index) {
-                    return StoryCard(story: stories![index]);
+                    if (index == stories.length) {
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(Size.p12),
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+                    return StoryCard(story: stories[index]);
                   },
                 );
               },

@@ -4,7 +4,6 @@ import 'package:dastory/feature/auth/data/model/request/login_request_model.dart
 import 'package:dastory/feature/auth/data/model/request/register_request_model.dart';
 import 'package:dastory/feature/auth/data/model/response/login_response_model.dart';
 import 'package:dastory/feature/auth/data/model/response/register_response_model.dart';
-import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'auth_event.dart';

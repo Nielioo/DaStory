@@ -226,7 +226,7 @@ class _PostStoryPageState extends State<PostStoryPage> {
                         postSuccess: (responseModel) {
                           descriptionController.clear();
                           BlocProvider.of<StoriesBloc>(context)
-                              .add(const StoriesEvent.add());
+                              .add(const StoriesEvent.first());
                           context.go('/stories');
                         },
                       );

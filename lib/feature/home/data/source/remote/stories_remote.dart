@@ -1,10 +1,11 @@
 part of '../../datas.dart';
 
 class StoriesRemote {
-  Future<Either<String, GetStoriesResponseModel>> getStories() async {
+  Future<Either<String, GetStoriesResponseModel>> getStories(
+      [int page = 1, int size = 10]) async {
     final token = await AuthLocal().getToken();
     try {
-      final url = Uri.parse("${Const.endPoint}/stories");
+      final url = Uri.parse("${Const.endPoint}/stories?page=$page&size=$size");
       final response = await http.get(
         url,
         headers: <String, String>{
