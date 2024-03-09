@@ -49,8 +49,8 @@ class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
               pageItem += 1;
             }
             listStory += success.listStory!;
-            return emit(_StoriesSuccess(
-                listStory: listStory, isLastPage: isLastPage));
+            return emit(
+                _StoriesSuccess(listStory: listStory, isLastPage: isLastPage));
           },
         );
       },

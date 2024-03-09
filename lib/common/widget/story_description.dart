@@ -49,7 +49,10 @@ class _StoryDescriptionState extends State<StoryDescription> {
                   children: [
                     TextSpan(
                       text: widget.name,
-                      style: Style.text1.copyWith(color: Colors.black),
+                      style: Style.text1.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const TextSpan(text: " "),
                     TextSpan(

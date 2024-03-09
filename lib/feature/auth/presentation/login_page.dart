@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.all(Size.p32),
                 child: Text(
-                  "Story App",
+                  FlavorConfig.instance.values.appName,
                   style: Style.headline1.copyWith(
                     color: Colors.black,
                   ),

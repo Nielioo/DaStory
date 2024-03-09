@@ -27,7 +27,8 @@ class _StoryCardState extends State<StoryCard> {
               ProfileBar(
                 imageUrl: widget.story.photoUrl ?? '',
                 name: widget.story.name ?? '',
-                withLocation: false,
+                lat: 0,
+                lon: 0,
               ),
               Gap.h8,
               GestureDetector(

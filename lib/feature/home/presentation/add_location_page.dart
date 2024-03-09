@@ -203,7 +203,8 @@ class _AddLocationPageState extends State<AddLocationPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: Size.p4, horizontal: Size.p16),
+              padding: const EdgeInsets.symmetric(
+                  vertical: Size.p4, horizontal: Size.p16),
               child: ElevatedButton(
                 onPressed: (selectedLocation != null)
                     ? () {

@@ -38,7 +38,7 @@ class _StoriesPageState extends State<StoriesPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          'Story App',
+          FlavorConfig.instance.values.appName,
           style: Style.headline1,
         ),
       ),

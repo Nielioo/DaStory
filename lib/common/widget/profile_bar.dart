@@ -1,19 +1,18 @@
 part of 'widgets.dart';
 
 class ProfileBar extends StatefulWidget {
-  const ProfileBar(
-      {super.key,
-      required this.imageUrl,
-      required this.name,
-      this.lat,
-      this.lon,
-      required this.withLocation});
+  const ProfileBar({
+    super.key,
+    required this.imageUrl,
+    required this.name,
+    this.lat,
+    this.lon,
+  });
 
   final String imageUrl;
   final String name;
   final num? lat;
   final num? lon;
-  final bool withLocation;
 
   @override
   State<ProfileBar> createState() => _ProfileBarState();
@@ -21,10 +20,12 @@ class ProfileBar extends StatefulWidget {
 
 class _ProfileBarState extends State<ProfileBar> {
   String location = '';
+  bool withLocation = false;
 
   @override
   void initState() {
-    if (widget.withLocation) {
+    if (widget.lat != 0 && widget.lon != 0) {
+      withLocation = true;
       getLocation(widget.lat!.toDouble(), widget.lon!.toDouble());
     }
     super.initState();
@@ -75,7 +76,7 @@ class _ProfileBarState extends State<ProfileBar> {
               widget.name,
               style: Style.text2.copyWith(fontWeight: FontWeight.bold),
             ),
-            if (widget.withLocation)
+            if (withLocation)
               GestureDetector(
                 onTap: () =>
                     context.push('/map?lat=${widget.lat}&lon=${widget.lon}'),
@@ -89,9 +90,10 @@ class _ProfileBarState extends State<ProfileBar> {
                     Text(
                       '(${widget.lat}, ${widget.lon})',
                       style: Style.text2.copyWith(
-                          color: Colors.black54,
-                          fontSize: 8,
-                          fontStyle: FontStyle.italic,),
+                        color: Colors.black54,
+                        fontSize: 8,
+                        fontStyle: FontStyle.italic,
+                      ),
                     ),
                   ],
                 ),

@@ -112,7 +112,8 @@ class _PostStoryPageState extends State<PostStoryPage> {
       body: Form(
         key: formKey,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: Size.p12, horizontal: Size.p16),
+          padding: const EdgeInsets.symmetric(
+              vertical: Size.p12, horizontal: Size.p16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -232,19 +233,20 @@ class _PostStoryPageState extends State<PostStoryPage> {
                   ),
                 ),
               ),
-              ListTile(
-                onTap: () async {
-                  List? result = await context.push<List>('/add_location');
-                  selectedLocation = result![0];
-                  address = result[1] ?? '';
-                  setState(() {});
-                },
-                title: Text((selectedLocation == null)
-                    ? AppLocalizations.of(context)!.locationText
-                    : address),
-                leading: const Icon(Icons.place),
-                trailing: const Icon(Icons.chevron_right),
-              ),
+              if (FlavorConfig.instance.flavor == FlavorType.paid)
+                ListTile(
+                  onTap: () async {
+                    List? result = await context.push<List>('/add_location');
+                    selectedLocation = result![0];
+                    address = result[1] ?? '';
+                    setState(() {});
+                  },
+                  title: Text((selectedLocation == null)
+                      ? AppLocalizations.of(context)!.locationText
+                      : address),
+                  leading: const Icon(Icons.place),
+                  trailing: const Icon(Icons.chevron_right),
+                ),
               Expanded(
                 flex: 2,
                 child: TextFormField(

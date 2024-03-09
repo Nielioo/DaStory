@@ -91,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: const EdgeInsets.all(Size.p32),
                 child: Text(
-                  "Story App",
+                  FlavorConfig.instance.values.appName,
                   style: Style.headline1.copyWith(
                     color: Colors.black,
                   ),
