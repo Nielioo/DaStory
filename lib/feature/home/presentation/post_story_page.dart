@@ -11,6 +11,8 @@ class _PostStoryPageState extends State<PostStoryPage> {
   final formKey = GlobalKey<FormState>();
   XFile? imageFile;
   late TextEditingController descriptionController;
+  LatLng? selectedLocation;
+  String address = '';
   final isWeb = kIsWeb;
 
   @override
@@ -57,13 +59,14 @@ class _PostStoryPageState extends State<PostStoryPage> {
     );
   }
 
-  _onUpload(BuildContext context, XFile imageFile, String description) {
+  _onUpload(BuildContext context, XFile imageFile, String description,
+      LatLng? latLng) {
     BlocProvider.of<PickImageStoryBloc>(context).add(
       PickImageStoryEvent.uploadImage(
         imageFile: imageFile,
         description: description,
-        lat: 0,
-        lon: 0,
+        lat: latLng == null ? 0 : latLng.latitude,
+        lon: latLng == null ? 0 : latLng.longitude,
       ),
     );
   }
@@ -109,7 +112,7 @@ class _PostStoryPageState extends State<PostStoryPage> {
       body: Form(
         key: formKey,
         child: Padding(
-          padding: const EdgeInsets.all(Size.p4),
+          padding: const EdgeInsets.symmetric(vertical: Size.p12, horizontal: Size.p16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -118,7 +121,57 @@ class _PostStoryPageState extends State<PostStoryPage> {
                 flex: 3,
                 child: GestureDetector(
                   onTap: () => showModalUploadMenu(context),
-                  child: BlocBuilder<PickImageStoryBloc, PickImageStoryState>(
+                  child: BlocConsumer<PickImageStoryBloc, PickImageStoryState>(
+                    listener: (context, state) {
+                      state.whenOrNull(
+                        postFailed: (message) {
+                          context.pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(message),
+                              duration: const Duration(seconds: 3),
+                            ),
+                          );
+                        },
+                        postSuccess: (responseModel) {
+                          context.pop();
+                          descriptionController.clear();
+                          selectedLocation = null;
+                          imageFile = null;
+                          address = '';
+                          setState(() {});
+                          BlocProvider.of<StoriesBloc>(context)
+                              .add(const StoriesEvent.first());
+                          context.go('/stories');
+                        },
+                        postLoading: () {
+                          showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (_) {
+                              return const Dialog(
+                                backgroundColor: Colors.white,
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(vertical: Size.p32),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      CircularProgressIndicator(),
+                                      Gap.h12,
+                                      Text('Please Wait...')
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        success: (imagePath, imageFile) {
+                          setState(() {});
+                        },
+                      );
+                    },
                     builder: (context, state) {
                       return state.maybeWhen(
                         initial: () => Column(
@@ -179,71 +232,53 @@ class _PostStoryPageState extends State<PostStoryPage> {
                   ),
                 ),
               ),
+              ListTile(
+                onTap: () async {
+                  List? result = await context.push<List>('/add_location');
+                  selectedLocation = result![0];
+                  address = result[1] ?? '';
+                  setState(() {});
+                },
+                title: Text((selectedLocation == null)
+                    ? AppLocalizations.of(context)!.locationText
+                    : address),
+                leading: const Icon(Icons.place),
+                trailing: const Icon(Icons.chevron_right),
+              ),
               Expanded(
                 flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.all(Size.p12),
-                  child: TextFormField(
-                    controller: descriptionController,
-                    maxLines: 4,
-                    decoration: InputDecoration(
-                      hintText:
-                          AppLocalizations.of(context)!.inputDescriptionText,
-                      border: const OutlineInputBorder(),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your description.';
-                      }
-                      return null;
-                    },
+                child: TextFormField(
+                  controller: descriptionController,
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    hintText:
+                        AppLocalizations.of(context)!.inputDescriptionText,
+                    border: const OutlineInputBorder(),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your description.';
+                    }
+                    return null;
+                  },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(Size.p12),
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      if (imageFile != null) {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        _onUpload(
-                            context, imageFile!, descriptionController.text);
-                      }
-                    }
-                  },
-                  child: BlocConsumer<PickImageStoryBloc, PickImageStoryState>(
-                    listener: (context, state) {
-                      state.whenOrNull(
-                        postFailed: (message) =>
-                            ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(message),
-                            duration: const Duration(seconds: 3),
-                            backgroundColor: Colors.red,
-                          ),
-                        ),
-                        postSuccess: (responseModel) {
-                          descriptionController.clear();
-                          BlocProvider.of<StoriesBloc>(context)
-                              .add(const StoriesEvent.first());
-                          context.go('/stories');
-                        },
-                      );
-                    },
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        postLoading: () => const CircularProgressIndicator(),
-                        orElse: () => const Text(
-                          'Upload',
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+              ElevatedButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    _onUpload(
+                      context,
+                      imageFile!,
+                      descriptionController.text,
+                      selectedLocation,
+                    );
+                  }
+                },
+                child: Text(AppLocalizations.of(context)!.uploadText,
+                    style: const TextStyle(
+                      color: Colors.black,
+                    )),
               ),
             ],
           ),

@@ -25,7 +25,7 @@ final router = GoRouter(
           navigatorKey: _homeNavigatorKey,
           routes: [
             GoRoute(
-              name: 'home',
+              name: 'stories',
               path: '/stories',
               builder: (context, state) => const StoriesPage(),
               routes: [
@@ -59,6 +59,21 @@ final router = GoRouter(
           ],
         ),
       ],
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
+      name: 'map',
+      path: '/map',
+      builder: (context, state) => MapPage(
+        lat: state.uri.queryParameters['lat'] ?? '0',
+        lon: state.uri.queryParameters['lon'] ?? '0',
+      ),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
+      name: 'add_location',
+      path: '/add_location',
+      builder: (context, state) => const AddLocationPage(),
     ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,

@@ -17,6 +17,7 @@ class Size {
   static const p72 = 72.0;
   static const p80 = 80.0;
   static const p96 = 96.0;
+  static const p144 = 144.0;
 
   static MediaQueryData mediaQueryData(BuildContext context) =>
       MediaQuery.of(context);

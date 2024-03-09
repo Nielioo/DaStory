@@ -10,6 +10,8 @@ class StoryDetailPage extends StatefulWidget {
 }
 
 class _StoryDetailPageState extends State<StoryDetailPage> {
+  String location = '';
+
   @override
   void initState() {
     BlocProvider.of<StoryDetailBloc>(context)
@@ -57,7 +59,7 @@ class _StoryDetailPageState extends State<StoryDetailPage> {
             success: (responseModel) {
               return SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(Size.p8),
+                  padding: const EdgeInsets.symmetric(vertical: Size.p12, horizontal: Size.p16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,6 +67,10 @@ class _StoryDetailPageState extends State<StoryDetailPage> {
                       ProfileBar(
                         imageUrl: responseModel.story?.photoUrl ?? '',
                         name: responseModel.story?.name ?? '',
+                        withLocation: (responseModel.story?.lat != 0 &&
+                            responseModel.story?.lon != 0),
+                        lat: responseModel.story?.lat ?? 0,
+                        lon: responseModel.story?.lon ?? 0,
                       ),
                       Gap.h4,
                       StoryImage(

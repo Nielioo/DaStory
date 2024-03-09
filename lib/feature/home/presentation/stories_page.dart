@@ -28,6 +28,10 @@ class _StoriesPageState extends State<StoriesPage> {
     super.dispose();
   }
 
+  _onRefresh(BuildContext context) async {
+    BlocProvider.of<StoriesBloc>(context).add(const StoriesEvent.first());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,26 +58,37 @@ class _StoriesPageState extends State<StoriesPage> {
                   color: violet950,
                 ),
               ),
-              success: (listStory) {
+              success: (listStory, isLastPage) {
                 final stories = listStory;
                 return ListView.builder(
                   controller: scrollController,
-                  itemCount: stories!.length + 1,
+                  itemCount:
+                      (isLastPage!) ? stories!.length : stories!.length + 1,
                   itemBuilder: (context, index) {
-                    if (index == stories.length) {
-                      return const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(Size.p12),
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    }
-                    return StoryCard(story: stories[index]);
+                    return (index >= stories.length)
+                        ? const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(Size.p12),
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : StoryCard(story: stories[index]);
                   },
                 );
               },
               failed: (String message) => Center(
-                child: Text(message),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(message),
+                    ElevatedButton(
+                        onPressed: () {
+                          _onRefresh(context);
+                        },
+                        child: const Text('Refresh'))
+                  ],
+                ),
               ),
             );
           },

@@ -46,10 +46,20 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-    <string>Need camera access for story usage</string>
+    <string>The app needs user's camera permission</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Need microphone access for story usage</string>
+    <string>The app needs user's microphone permission</string>
     <key>NSPhotoLibraryUsageDescription </key>
-    <string>Need library access for story usage</string>
+    <string>The app needs user's photo library permission</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>The app needs user's location permission</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>The app needs user's location permission</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>The app needs location service permission</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>location</string>
+    </array>
 </dict>
 </plist>

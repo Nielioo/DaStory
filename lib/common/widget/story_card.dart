@@ -25,10 +25,11 @@ class _StoryCardState extends State<StoryCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ProfileBar(
-                imageUrl: widget.story.photoUrl!,
-                name: widget.story.name!,
+                imageUrl: widget.story.photoUrl ?? '',
+                name: widget.story.name ?? '',
+                withLocation: false,
               ),
-              Gap.h4,
+              Gap.h8,
               GestureDetector(
                 onTap: () {
                   context.push('/stories/${widget.story.id}');

@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                   backgroundColor: Colors.green,
                 ),
               );
-              context.goNamed('home');
+              context.goNamed('stories');
             },
             loginFailed: (value) {
               context.pop();

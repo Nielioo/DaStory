@@ -14,9 +14,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+import 'package:geocoding/geocoding.dart' as geo;
 
 part 'home_page.dart';
 part 'stories_page.dart';
 part 'story_detail_page.dart';
 part 'post_story_page.dart';
+part 'add_location_page.dart';
+part 'map_page.dart';
 part 'profile_page.dart';
